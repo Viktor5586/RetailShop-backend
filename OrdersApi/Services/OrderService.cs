@@ -45,6 +45,13 @@ namespace OrdersApi.Services
       return await _orderRepository.GetOrdersByCustomerIdAsync(customerId).ConfigureAwait(false);
     }
 
+    public async Task<decimal> GetTotalSalesForCustomerAsync(long customerId)
+    {
+      IEnumerable<Order> orders = await _orderRepository.GetOrdersByCustomerIdAsync(customerId).ConfigureAwait(false);
+      decimal totalSales = orders.SelectMany(order => order.OrderItems).Sum(orderItem => orderItem.LineTotal);
+      return totalSales;
+    }
+
     public async Task<Order> GetOrderByIdAsync(long orderId)
     {
       return await _orderRepository.GetOrderByIdAsync(orderId).ConfigureAwait(false);

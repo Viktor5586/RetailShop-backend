@@ -41,6 +41,13 @@ namespace OrdersApi.Controllers
 
       return Ok(order);
     }
+    
+    [HttpGet("customer/totalSales/{customerId}")]
+    public async Task<IActionResult> GetTotalSalesForCustomer(long customerId)
+    {
+      var totalSalesForCustomer = await _orderService.GetTotalSalesForCustomerAsync(customerId);
+      return Ok(totalSalesForCustomer);
+    }
 
     [HttpPost("add")]
     public async Task<IActionResult> AddOrder([FromBody] Order order)
